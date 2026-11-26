@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoEscola Emygdio: Missão Sustentabilidade</title>
+  <meta
+    name="description"
+    content="Site educacional da Escola Emygdio: check-list de itens recicláveis com ganho de pontos, missões sustentáveis e canal de alertas e soluções para a escola."
+  />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <!-- Barra superior fixa -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#inicio" class="brand" aria-label="EcoEscola Emygdio: Missão Sustentabilidade">
+        <span class="brand-badge" aria-hidden="true">
+          <svg viewBox="0 0 36 36" width="28" height="28" fill="none">
+            <circle cx="18" cy="18" r="17" fill="#E8F8EE" />
+            <path
+              d="M25.5 10.5C18.2 10.5 12.2 14.4 10.5 21.8C10 23.8 11.7 25.5 13.7 25C21.1 23.3 25.5 17.8 25.5 10.5Z"
+              fill="#1E9E5A"
+            />
+            <path
+              d="M11 25C14.2 21.4 17.8 18.2 22.5 14.5"
+              stroke="#FFFFFF"
+              stroke-width="2"
+              stroke-linecap="round"
+            />
+          </svg>
+        </span>
+        <span class="brand-text">EcoEscola Emygdio: Missão Sustentabilidade</span>
+      </a>
+
+      <!-- Navegação Principal em Abas -->
+      <nav class="topnav" aria-label="Navegação principal">
+        <button type="button" class="nav-tab active" data-tab="tab-checklist" id="tab-checklist-btn">
+          🌿 Check-list de Reciclagem
+        </button>
+        <button type="button" class="nav-tab" data-tab="tab-alertas" id="tab-alertas-btn">
+          📢 Alertas & Soluções da Escola
+        </button>
+      </nav>
+
+      <div class="topbar-meta">
+        <span class="students-badge" id="headerLevelBadge" title="Seu nível ecológico atual">
+          🌱 <strong id="headerLevelName">Semente Curiosa</strong>
+        </span>
+        <div class="topbar-points" aria-live="polite" title="Pontos acumulados por você">
+          <span class="points-star" aria-hidden="true">★</span>
+          <span><strong id="headerPoints">0</strong> pts</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="inicio" class="container">
+    <!-- Bloco Hero: Boas-vindas, Nome do Aluno (Opcional) e Nível Ecológico -->
+    <section class="hero card" aria-labelledby="heroTitle">
+      <div class="hero-content">
+        <span class="pill-tag">Projeto Escolar de Sustentabilidade • Sem necessidade de conta</span>
+        <h1 id="heroTitle">Pequenas atitudes hoje, um planeta vivo amanhã!</h1>
+        <p class="hero-subtitle">
+          Marque os itens que você reciclou para acumular pontos ecológicos e use a aba de alertas para apontar melhorias e propor soluções criativas para a Escola Emygdio.
+        </p>
+
+        <!-- Campo de nome opcional no começo do site -->
+        <div class="student-quick-bar">
+          <label class="inline-field" for="studentName">
+            <span>Seu Nome ou Apelido: <small class="text-hint">(opcional)</small></span>
+            <input
+              type="text"
+              id="studentName"
+              maxlength="60"
+              placeholder="Ex.: Mariana (ou deixe em branco para anônimo)"
+              autocomplete="name"
+            />
+          </label>
+        </div>
+      </div>
+
+      <!-- Card com Nível do Aluno e Estatísticas de Pontos -->
+      <div class="hero-rank-card" aria-live="polite">
+        <div class="rank-top">
+          <span class="rank-emoji" id="rankBadgeIcon" aria-hidden="true">🌱</span>
+          <div>
+            <p class="rank-label">Seu Nível Sustentável</p>
+            <h2 class="rank-title" id="rankTitle">Estudante • Semente Curiosa</h2>
+          </div>
+        </div>
+
+        <div class="rank-stats-row">
+          <div class="stat-mini">
+            <span class="stat-mini-value" id="totalPointsValue">0</span>
+            <span class="stat-mini-label">Seus Pontos</span>
+          </div>
+          <div class="stat-mini">
+            <span class="stat-mini-value" id="totalItemsValue">0</span>
+            <span class="stat-mini-label">Itens Reciclados</span>
+          </div>
+          <div class="stat-mini">
+            <span class="stat-mini-value" id="completedMissionsValue">0/6</span>
+            <span class="stat-mini-label">Missões Concluídas</span>
+          </div>
+        </div>
+
+        <div class="level-progress-wrap">
+          <div class="level-progress-labels">
+            <span id="nextLevelLabel">Próximo nível: Broto Protetor (50 pts)</span>
+            <span id="nextLevelPct">0%</span>
+          </div>
+          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="levelProgressBar">
+            <div class="progress-fill" id="levelProgressFill"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- ABA 1: CHECK-LIST DE RECICLAGEM E MISSÕES                    -->
+    <!-- ============================================================ -->
+    <div id="tab-checklist" class="tab-pane active" role="tabpanel" aria-labelledby="tab-checklist-btn">
+      <!-- Seção 1: Check-list + Painel de Envio e Anexo de Foto -->
+      <section id="checklist" class="section-block" aria-labelledby="checklistHeading">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Passo 1 • Registro Diário</span>
+            <h2 id="checklistHeading">Check-list de Reciclagem</h2>
+            <p class="section-desc">
+              Assinale tudo o que você trouxe para reciclar (ou ações ecológicas praticadas) e anexe uma foto para ganhar seus pontos!
+            </p>
+          </div>
+
+          <div class="filter-chips" role="tablist" aria-label="Filtrar categoria">
+            <button type="button" class="chip active" data-filter="all">Todos</button>
+            <button type="button" class="chip" data-filter="Plástico">Plástico</button>
+            <button type="button" class="chip" data-filter="Papel">Papel</button>
+            <button type="button" class="chip" data-filter="Metal">Metal</button>
+            <button type="button" class="chip" data-filter="Vidro">Vidro</button>
+            <button type="button" class="chip" data-filter="Ação Verde">Ação Verde</button>
+          </div>
+        </div>
+
+        <form id="recycleForm" class="checklist-layout" novalidate>
+          <!-- Grid dos Itens Recicláveis -->
+          <div class="card checklist-card">
+            <div class="checklist-card-head">
+              <h3>O que você reciclou hoje?</h3>
+              <span class="selected-counter" id="selectedCountBadge">0 tipo(s) marcado(s)</span>
+            </div>
+
+            <div id="checklistGrid" class="checklist-grid">
+              <!-- Renderizado via JavaScript -->
+            </div>
+          </div>
+
+          <!-- Painel Lateral de Envio -->
+          <aside class="card submit-panel" aria-label="Detalhes do envio e foto">
+            <h3>Concluir Envio</h3>
+
+            <!-- Identificação do Aluno vinculada ao topo -->
+            <div class="student-session-pill">
+              <span class="session-label">Registrando como:</span>
+              <strong class="session-name" id="displayCurrentStudent">Estudante Anônimo</strong>
+              <span class="session-hint">Nome configurável no topo da página (opcional)</span>
+            </div>
+
+            <div class="field-group">
+              <label for="entryDate">Data do registro</label>
+              <input type="date" id="entryDate" />
+              <small class="field-hint">A data e horário são guardados localmente neste navegador.</small>
+            </div>
+
+            <div class="field-group">
+              <label for="entryNotes">Observação rápida (opcional)</label>
+              <textarea
+                id="entryNotes"
+                rows="2"
+                maxlength="160"
+                placeholder="Ex.: Trouxe 3 garrafas limpas para a caixa azul da sala!"
+              ></textarea>
+            </div>
+
+            <!-- Anexo de Imagem do Item Reciclado -->
+            <div class="field-group">
+              <label for="photoInput">Anexar foto dos itens (opcional)</label>
+              <div class="upload-box" id="uploadDropzone">
+                <input
+                  type="file"
+                  id="photoInput"
+                  accept="image/*"
+                  class="upload-input"
+                  aria-describedby="photoHelp"
+                />
+                <div class="upload-placeholder" id="uploadPlaceholder">
+                  <div class="upload-icon" aria-hidden="true">📷</div>
+                  <p class="upload-title">Clique ou arraste uma foto aqui</p>
+                  <p class="upload-sub" id="photoHelp">PNG, JPG ou WebP • Guardada localmente com o registro</p>
+                </div>
+
+                <div class="upload-preview hidden" id="uploadPreview">
+                  <img id="previewImg" src="" alt="Pré-visualização da foto anexada" />
+                  <div class="upload-preview-actions">
+                    <span id="photoFileName" class="photo-name">foto.jpg</span>
+                    <button type="button" id="removePhotoBtn" class="btn-text-danger">Remover foto</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>Itens marcados:</span>
+                <strong id="summaryItemsCount">0</strong>
+              </div>
+              <div class="summary-row highlight">
+                <span>Pontos a receber:</span>
+                <strong id="summaryPoints">+0 pts</strong>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="submitBtn">
+              Registrar e Ganhar Pontos
+            </button>
+
+            <p id="formFeedback" class="form-feedback" role="status" aria-live="polite"></p>
+          </aside>
+        </form>
+      </section>
+
+      <!-- Seção 2: Missões de Reciclagem -->
+      <section id="missoes" class="section-block" aria-labelledby="missionsHeading">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Passo 2 • Desafios Ecológicos</span>
+            <h2 id="missionsHeading">Missões Sustentáveis</h2>
+            <p class="section-desc">
+              Ao cumprir as missões reciclagem e participar da escola, você ganha bônus de pontos e avança no nível ecológico!
+            </p>
+          </div>
+        </div>
+
+        <div id="missionsGrid" class="missions-grid">
+          <!-- Missões renderizadas via JS -->
+        </div>
+      </section>
+
+      <!-- Seção 3: Impacto Coletivo da Escola -->
+      <section id="impacto" class="section-block" aria-labelledby="impactHeading">
+        <div class="section-header">
+          <div>
+            <span class="section-kicker">Passo 3 • Resultados Coletivos</span>
+            <h2 id="impactHeading">Impacto Ecológico da Escola Emygdio</h2>
+            <p class="section-desc">
+              Veja como suas ações se somam ao esforço coletivo da escola para economizar água, árvores e energia.
+            </p>
+          </div>
+        </div>
+
+        <div class="impact-grid">
+          <div class="card impact-kpi">
+            <div class="kpi-icon blue" aria-hidden="true">💧</div>
+            <div>
+              <span class="kpi-value" id="impactWater">0 L</span>
+              <span class="kpi-label">Água economizada</span>
+            </div>
+          </div>
+
+          <div class="card impact-kpi">
+            <div class="kpi-icon green" aria-hidden="true">🌳</div>
+            <div>
+              <span class="kpi-value" id="impactTrees">0</span>
+              <span class="kpi-label">Árvores poupadas (equiv.)</span>
+            </div>
+          </div>
+
+          <div class="card impact-kpi">
+            <div class="kpi-icon amber" aria-hidden="true">⚡</div>
+            <div>
+              <span class="kpi-value" id="impactEnergy">0 kWh</span>
+              <span class="kpi-label">Energia poupada</span>
+            </div>
+          </div>
+
+          <div class="card impact-kpi">
+            <div class="kpi-icon teal" aria-hidden="true">☁️</div>
+            <div>
+              <span class="kpi-value" id="impactCo2">0 kg</span>
+              <span class="kpi-label">CO₂ evitado</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-details-grid">
+          <div class="card school-goal-card">
+            <div class="goal-head">
+              <h3>Meta Coletiva da Escola Emygdio</h3>
+              <span class="goal-badge" id="schoolGoalPct">0%</span>
+            </div>
+            <p class="goal-desc">
+              Meta do semestre: alcançar <strong>1.000 itens reciclados e ações sustentáveis</strong> somando os registros da turma com a base coletiva da escola.
+            </p>
+            <div class="progress-track large" aria-label="Meta da escola">
+              <div class="progress-fill school" id="schoolGoalFill"></div>
+            </div>
+            <div class="goal-numbers">
+              <span>Base coletiva da escola: <strong id="schoolBaseCount">340</strong> itens</span>
+              <span>Suas entregas locais: <strong id="studentContribCount">0</strong> itens</span>
+              <span>Total geral: <strong id="schoolTotalCount">340</strong> / 1.000</span>
+            </div>
+          </div>
+
+          <div class="card material-chart-card">
+            <h3>Distribuição por Categoria (Seus Registros + Escola)</h3>
+            <div id="categoryBars" class="category-bars">
+              <!-- Barras renderizadas via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Seção 4: Histórico de Envios Locais -->
+      <section id="historico" class="section-block" aria-labelledby="historyHeading">
+        <div class="section-header history-header">
+          <div>
+            <span class="section-kicker">Histórico de Atividades • Linha do Tempo</span>
+            <h2 id="historyHeading">Seus Registros de Reciclagem</h2>
+            <p class="section-desc">
+              Aqui ficam salvas as ações enviadas neste navegador, com fotos ampliáveis e pontos recebidos.
+            </p>
+          </div>
+
+          <div class="history-actions">
+            <button type="button" id="exportBtn" class="btn-secondary">Exportar Dados (.json)</button>
+            <button type="button" id="clearDataBtn" class="btn-danger-outline">Limpar Dados Locais</button>
+          </div>
+        </div>
+
+        <div id="historyList" class="history-list">
+          <!-- Histórico renderizado via JS -->
+        </div>
+      </section>
+    </div>
+    <!-- FIM DA ABA 1 -->
+
+    <!-- ============================================================ -->
+    <!-- ABA 2: ALERTAS & SOLUÇÕES DA ESCOLA (NOVA ABA DEDICADA)      -->
+    <!-- ============================================================ -->
+    <div id="tab-alertas" class="tab-pane hidden" role="tabpanel" aria-labelledby="tab-alertas-btn">
+      <section class="section-block alert-hero-block" aria-labelledby="alertHeroHeading">
+        <div class="card alert-hero-card">
+          <div class="alert-hero-content">
+            <span class="pill-tag" style="background: var(--accent-light); color: #92400e;">📢 Voz Ativa dos Alunos</span>
+            <h2 id="alertHeroHeading">Alertar sobre um Assunto & Propor uma Solução</h2>
+            <p class="section-desc">
+              Viu algo na escola que pode ser melhorado? (como torneira pingando, lixeiras sem separação, lâmpadas acesas em salas vazias ou horta sem cuidados).
+              Descreva a situação, <strong>proponha uma ideia criativa de solução</strong> e anexe uma foto se quiser. Cada proposta rende <strong>+10 pontos</strong> e fica salva no mural da escola!
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block" aria-labelledby="alertsSectionHeading">
+        <h2 id="alertsSectionHeading" class="sr-only">Formulário e Mural de Alertas</h2>
+
+        <div class="suggestions-layout">
+          <!-- Formulário de Alerta com Solução -->
+          <form id="suggestionForm" class="card suggestion-form-card" novalidate>
+            <h3>💡 Enviar Alerta com Solução</h3>
+
+            <!-- Identificação do Aluno (opcional, herdada do topo) -->
+            <div class="student-session-pill">
+              <span class="session-label">Autor do alerta:</span>
+              <strong class="session-name" id="displayCurrentStudentSug">Estudante Anônimo</strong>
+              <span class="session-hint">Nome configurável no topo da página (opcional)</span>
+            </div>
+
+            <div class="field-group">
+              <div class="label-with-counter">
+                <label for="sugSubject">Qual é o problema ou situação na escola? <span class="required">*</span></label>
+                <span class="char-counter" id="sugSubjectCounter">0/180</span>
+              </div>
+              <textarea
+                id="sugSubject"
+                class="textarea-problem"
+                rows="3"
+                maxlength="180"
+                placeholder="Descreva o que e onde está acontecendo. Ex.: A torneira do bebedouro do pátio está pingando sem parar; falta lixeira para papel perto da sala de artes..."
+                required
+              ></textarea>
+              <div class="quick-tags-wrap">
+                <span class="quick-tags-label">Exemplos rápidos (clique para preencher):</span>
+                <div class="quick-tags" id="quickProblemTags">
+                  <button type="button" class="quick-tag-btn" data-text="Torneira pingando no pátio ou banheiro desperdiçando água">💧 Torneira pingando</button>
+                  <button type="button" class="quick-tag-btn" data-text="Falta de lixeira para coleta seletiva na sala de aula">🗑️ Lixeira seletiva</button>
+                  <button type="button" class="quick-tag-btn" data-text="Luzes ou ventiladores ligados em sala vazia">💡 Desperdício de energia</button>
+                  <button type="button" class="quick-tag-btn" data-text="Canteiro da horta escolar precisando de cuidado ou rega">🌱 Cuidado com a horta</button>
+                  <button type="button" class="quick-tag-btn" data-text="Resíduos ou folhas secas acumulados no pátio da escola">🍂 Limpeza do pátio</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="sugAlternative">Qual alternativa / solução você propõe? <span class="required">*</span></label>
+              <textarea
+                id="sugAlternative"
+                rows="3"
+                maxlength="300"
+                placeholder="Ex.: Fazer um cartaz de alerta feito pelos alunos e pedir para a manutenção trocar a borrachinha de vedação."
+                required
+              ></textarea>
+            </div>
+
+            <!-- Anexo de Foto do Problema ou Local -->
+            <div class="field-group">
+              <label for="sugPhotoInput">Anexar foto do local ou problema (opcional)</label>
+              <div class="upload-box" id="sugUploadDropzone">
+                <input
+                  type="file"
+                  id="sugPhotoInput"
+                  accept="image/*"
+                  class="upload-input"
+                  aria-describedby="sugPhotoHelp"
+                />
+                <div class="upload-placeholder" id="sugUploadPlaceholder">
+                  <div class="upload-icon" aria-hidden="true">📸</div>
+                  <p class="upload-title">Clique ou arraste uma foto aqui</p>
+                  <p class="upload-sub" id="sugPhotoHelp">Foto do vazamento, lixeira, local ou ideia desenhada</p>
+                </div>
+
+                <div class="upload-preview hidden" id="sugUploadPreview">
+                  <img id="sugPreviewImg" src="" alt="Pré-visualização da imagem do alerta" />
+                  <div class="upload-preview-actions">
+                    <span id="sugPhotoFileName" class="photo-name">foto-alerta.jpg</span>
+                    <button type="button" id="sugRemovePhotoBtn" class="btn-text-danger">Remover foto</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary" id="sugSubmitBtn">
+              Enviar Alerta com Solução (+10 pts)
+            </button>
+
+            <p id="sugFormFeedback" class="form-feedback" role="status" aria-live="polite"></p>
+          </form>
+
+          <!-- Mural de Alertas & Soluções Salvos Localmente -->
+          <div class="card suggestions-list-card">
+            <div class="suggestions-list-header">
+              <h3>Mural de Alertas e Soluções</h3>
+              <span class="selected-counter" id="sugCounterBadge">0 alerta(s)</span>
+            </div>
+            <div id="suggestionsList" class="suggestions-list">
+              <!-- Renderizado via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <!-- FIM DA ABA 2 -->
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <p>
+        <strong>EcoEscola Emygdio: Missão Sustentabilidade</strong> — Projeto educativo para o Ensino Fundamental.
+      </p>
+      <p class="footer-note">
+        Privacidade garantida: nenhuma conta é necessária e todos os dados e fotos ficam armazenados apenas no navegador deste aparelho.
+      </p>
+    </div>
+  </footer>
+
+  <!-- Toast de celebração de conquistas e pontos -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+
+  <!-- Modal para ampliar fotos (funciona para fotos da reciclagem e dos alertas) -->
+  <div id="imageModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modalCaption">
+    <div class="modal-backdrop" id="modalBackdrop"></div>
+    <div class="modal-content">
+      <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Fechar visualização">✕</button>
+      <img id="modalImage" src="" alt="Foto ampliada" />
+      <p id="modalCaption" class="modal-caption"></p>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
+</body>
+</html>
